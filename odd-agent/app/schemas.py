@@ -12,6 +12,7 @@ class WebSearchResult(BaseModel):
 class MoralScoreResult(BaseModel):
     found: bool
     url: str
+    global_score: int | None = None
     summary: str = ""
 
 

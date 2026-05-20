@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 
 import requests
@@ -42,6 +43,19 @@ def fetch_moralscore(company_name: str, timeout: int = 15) -> MoralScoreResult:
         )
 
     soup = BeautifulSoup(response.text, "html.parser")
+
+    global_score: int | None = None
+    for ld_tag in soup.find_all("script", type="application/ld+json"):
+        try:
+            data = json.loads(ld_tag.string or "")
+            if isinstance(data, dict) and data.get("@type") == "AggregateRating":
+                raw = data.get("ratingValue")
+                if raw is not None:
+                    global_score = int(float(raw))
+                    break
+        except (ValueError, TypeError):
+            continue
+
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
 
@@ -55,4 +69,4 @@ def fetch_moralscore(company_name: str, timeout: int = 15) -> MoralScoreResult:
     page_text = clean_text(main.get_text(" ", strip=True), 3500)
     summary = clean_text(" | ".join(part for part in [title, description, page_text] if part), 4500)
 
-    return MoralScoreResult(found=bool(summary), url=url, summary=summary)
+    return MoralScoreResult(found=bool(summary), url=url, global_score=global_score, summary=summary)

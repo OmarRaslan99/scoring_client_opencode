@@ -36,6 +36,8 @@ def print_moralscore_result(result: MoralScoreResult) -> None:
     print("** Resultat MoralScore :")
     print(f"  * found : {str(result.found).lower()}")
     print(f"  * url : {result.url}")
+    if result.global_score is not None:
+        print(f"  * note globale : {result.global_score}/100")
     print(f"  * summary : {result.summary}")
     print(SEPARATOR)
 

@@ -16,6 +16,7 @@ dependencies = [
 
 [project.scripts]
 odd-agent = "app.main:cli"
+evaluate = "app.main:cli"
 
 [build-system]
 requires = ["hatchling"]
