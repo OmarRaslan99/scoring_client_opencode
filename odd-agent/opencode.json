@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "openai/gpt-4.1",
+  "small_model": "openai/gpt-4.1",
+  "default_agent": "odd-agent",
+  "enabled_providers": ["openai"],
+  "provider": {
+    "openai": {
+      "options": {
+        "apiKey": "{env:OPENAI_API_KEY}"
+      }
+    }
+  },
+  "permission": {
+    "bash": {
+      "*": "allow"
+    },
+    "skill": {
+      "*": "allow"
+    }
+  }
+}
